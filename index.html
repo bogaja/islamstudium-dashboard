@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamstudium - Executive Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f2fdf7',
+                            100: '#e1f9ec',
+                            300: '#9ee0c0',
+                            500: '#34d399',
+                            700: '#047857',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        dark: {
+                            800: '#111827',
+                            900: '#0b0f19',
+                            950: '#05070c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(4, 120, 87, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #34d399, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 0.375rem;
+            background-color: rgba(15, 23, 42, 0.5);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #047857;
+            border-color: #047857;
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 1rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-done { text-decoration: line-through; color: #64748b; }
+        
+        .roadmap-btn.active {
+            border-color: #34d399;
+            background: rgba(4, 120, 87, 0.2);
+            color: #fff;
+        }
+
+        .progress-bar-fill {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-panel border-b-0 border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="crescent" class="text-brand-500 w-6 h-6"></i>
+                    <span class="font-serif font-bold text-xl tracking-wider text-white">
+                        <span class="font-light">LIFEGUIDANCE</span> NETWORK
+                    </span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#kpi" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">Performance KPIs</a>
+                        <a href="#checklist" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">Checkliste</a>
+                        <a href="#roadmap" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">Roadmap</a>
+                        <a href="#strategy" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">Strategie</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-16 px-4">
+        <div class="max-w-7xl mx-auto text-center" id="hero-section">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/40 border border-brand-500/30 text-brand-300 text-sm mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                Live Executive Dashboard
+            </div>
+            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 text-white leading-tight">
+                Islamstudium <span class="gradient-text italic">3.0</span> <br/>
+                Strategischer Hub
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto font-light">
+                Ausrichtung auf operative Exzellenz, Marketing-Fokus und finanzielles Wachstum durch Automatisierung und Premium-Positionierung.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+
+        <!-- Section: KPIs -->
+        <section id="kpi" class="scroll-mt-32 gs-reveal">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl font-serif font-bold text-white mb-2">Performance & Potenzialanalyse</h2>
+                    <p class="text-slate-400 max-w-2xl">Visualisierung der Projekt-Reichweite. Das Ziel: Fokussierung auf hochmargige Automatisierung (Semesterkurse), um 15.000 € Umsatz pro 100 Buchungen zu generieren.</p>
+                </div>
+            </div>
+            
+            <div class="glass-panel p-8 rounded-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+                    <div class="lg:col-span-2 relative h-[350px]">
+                        <canvas id="kpiChart"></canvas>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="glass-panel p-6 rounded-xl border border-slate-700/50 hover:border-brand-500/50 transition-colors">
+                            <div class="text-sm text-slate-400 uppercase tracking-wider mb-1">Registrierte Lernende</div>
+                            <div class="text-4xl font-light text-white">4.700<span class="text-brand-500">+</span></div>
+                            <div class="text-xs text-brand-500 mt-2 flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> Top Bewertungen (5.0)</div>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-xl border border-brand-500/20 bg-brand-900/10 hover:border-brand-500/50 transition-colors">
+                            <div class="text-sm text-brand-300 uppercase tracking-wider mb-1">Monetäres Ziel (Semester)</div>
+                            <div class="text-4xl font-light text-white">15.000<span class="text-brand-500">€</span></div>
+                            <div class="text-xs text-brand-300 mt-2 flex items-center gap-1"><i data-lucide="target" class="w-3 h-3"></i> Entspricht 100 Buchungen à 149€</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Checklist -->
+        <section id="checklist" class="scroll-mt-32 gs-reveal">
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-3xl font-serif font-bold text-white mb-2">Operative Checkliste</h2>
+                    <p class="text-slate-400">Priorisierte Aufgaben zur Befreiung aus der Stagnation und zur Minimierung der Influencer-Abhängigkeit.</p>
+                </div>
+                
+                <!-- Progress Indicator -->
+                <div class="glass-panel px-6 py-4 rounded-xl flex items-center gap-4 border-slate-700">
+                    <div class="text-right">
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Fortschritt</div>
+                        <div class="text-lg font-bold text-brand-400" id="progress-text">0 / 12</div>
+                    </div>
+                    <div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-brand-700 to-brand-400 progress-bar-fill w-0" id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Marketing Tasks -->
+                <div class="glass-panel rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg"><i data-lucide="megaphone" class="w-5 h-5"></i></div>
+                        <h3 class="font-bold text-lg">Marketing & Vertrieb</h3>
+                    </div>
+                    <ul class="divide-y divide-slate-700/50 flex-grow" id="marketing-tasks">
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Kundenbewertungen (Text/Video) sammeln</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Schneiden von Testimonials zur unabhängigen Schaltung von bezahlter Werbung.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Prio: Hoch | Team</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Umfrage publizieren</h4>
+                                <p class="text-slate-400 mt-1 text-xs">NL/Instagram: Selbststudium vs. Mentoring auswerten.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-blue-500/10 text-blue-400">Prio: Mittel | Team</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Skripte für Marketing-Videos schreiben</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Inkl. Zusammenstellung aller Marketingideen.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Bogachan</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Testvideo "Social-Media Gesicht" anfordern</h4>
+                                <p class="text-slate-400 mt-1 text-xs">20-jährigen Kandidaten (Bruder Abdullah) briefen/testen.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Hakija</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Schwester-Kampagne Tajwid/Arabisch</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Schwester von Scheich Ermin kontaktieren (Hohe Conversion bei Frauen erwartet).</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Hakija</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tech Tasks -->
+                <div class="glass-panel rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
+                        <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="cpu" class="w-5 h-5"></i></div>
+                        <h3 class="font-bold text-lg">Technik & Infrastruktur</h3>
+                    </div>
+                    <ul class="divide-y divide-slate-700/50 flex-grow" id="tech-tasks">
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Passfoto (1500x1000) erstellen</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Für persönliche Meta Business Verifizierung.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-red-500/10 text-red-400">Kritisch | Hakija</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">VAE Business-Mobilvertrag checken</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Vertrag bei "Du" oder Firmenrechnung bei Etisalat organisieren (für Meta).</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-red-500/10 text-red-400">Kritisch | Hakija</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Dokumente für Vertrag senden</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Trade License und Emirates ID für Mobilfunkvertrag senden.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Bogachan</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">KI-generierte Handouts erstellen</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Notebook LM & Gemini nutzen, um Handouts aus Videos automatisiert herzustellen.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-400">Abdurrahman</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Finance Tasks -->
+                <div class="glass-panel rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
+                        <div class="p-2 bg-brand-500/10 text-brand-400 rounded-lg"><i data-lucide="wallet" class="w-5 h-5"></i></div>
+                        <h3 class="font-bold text-lg">Finanzen & Buchhaltung</h3>
+                    </div>
+                    <ul class="divide-y divide-slate-700/50 flex-grow" id="finance-tasks">
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Jahresbuchhaltung 2024 final abschließen</h4>
+                                <p class="text-slate-400 mt-1 text-xs">850€ Strafe klären und prüfen, ob Kosten für finalen Emirati-Stempel anfallen.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-red-500/10 text-red-400">Kritisch | Hakija</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Buchhaltung 2025 initiieren</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Daten für das laufende Jahr an neue Buchhalterin übergeben.</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Hakija</span>
+                            </div>
+                        </li>
+                        <li class="p-5 hover:bg-slate-800/40 transition flex items-start gap-4">
+                            <input type="checkbox" class="task-checkbox mt-0.5">
+                            <div>
+                                <h4 class="font-medium text-white task-text text-sm">Monetäres Setup: Semester Sales</h4>
+                                <p class="text-slate-400 mt-1 text-xs">Marketingfokus komplett auf Semesterkurse ausrichten (100% Marge bleibt bei uns).</p>
+                                <span class="inline-block mt-2 text-[10px] uppercase px-2 py-0.5 rounded bg-blue-500/10 text-blue-400">Team</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Roadmap -->
+        <section id="roadmap" class="scroll-mt-32 gs-reveal">
+            <h2 class="text-3xl font-serif font-bold text-white mb-8">Masterplan Roadmap</h2>
+
+            <div class="glass-panel p-2 rounded-2xl">
+                <div class="flex flex-col lg:flex-row gap-2">
+                    
+                    <button class="roadmap-btn active flex-1 text-left p-6 rounded-xl border border-transparent transition-all group" data-target="phase-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="text-xs uppercase tracking-widest text-slate-400 group-[.active]:text-brand-300">Meilenstein 1</div>
+                            <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center group-[.active]:bg-brand-500 group-[.active]:text-white text-slate-400"><i data-lucide="rocket" class="w-4 h-4"></i></div>
+                        </div>
+                        <div class="font-bold text-lg text-white group-[.active]:text-brand-400">Marketing-Offensive</div>
+                        <div class="text-sm text-slate-400 mt-2">Semester 1 & 2</div>
+                    </button>
+
+                    <button class="roadmap-btn flex-1 text-left p-6 rounded-xl border border-transparent hover:bg-slate-800/50 transition-all group" data-target="phase-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="text-xs uppercase tracking-widest text-slate-400 group-[.active]:text-brand-300">Meilenstein 2</div>
+                            <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center group-[.active]:bg-brand-500 group-[.active]:text-white text-slate-400"><i data-lucide="playback-start" class="w-4 h-4"></i></div>
+                        </div>
+                        <div class="font-bold text-lg text-white group-[.active]:text-brand-400">Recording & Release</div>
+                        <div class="text-sm text-slate-400 mt-2">Semester 3 Start</div>
+                    </button>
+
+                    <button class="roadmap-btn flex-1 text-left p-6 rounded-xl border border-transparent hover:bg-slate-800/50 transition-all group" data-target="phase-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="text-xs uppercase tracking-widest text-slate-400 group-[.active]:text-brand-300">Meilenstein 3</div>
+                            <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center group-[.active]:bg-brand-500 group-[.active]:text-white text-slate-400"><i data-lucide="library-big" class="w-4 h-4"></i></div>
+                        </div>
+                        <div class="font-bold text-lg text-white group-[.active]:text-brand-400">Kursaufwertung</div>
+                        <div class="text-sm text-slate-400 mt-2">Expansion & Skripte</div>
+                    </button>
+
+                    <button class="roadmap-btn flex-1 text-left p-6 rounded-xl border border-transparent hover:bg-slate-800/50 transition-all group" data-target="phase-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="text-xs uppercase tracking-widest text-brand-500/70 group-[.active]:text-brand-300">Zielzustand</div>
+                            <div class="w-8 h-8 rounded-full bg-brand-900/50 border border-brand-500/30 flex items-center justify-center group-[.active]:bg-brand-500 group-[.active]:text-white text-brand-500"><i data-lucide="award" class="w-4 h-4"></i></div>
+                        </div>
+                        <div class="font-bold text-lg text-brand-400 group-[.active]:text-brand-400">Plattform 3.0</div>
+                        <div class="text-sm text-slate-400 mt-2">Skalierbares Ökosystem</div>
+                    </button>
+                    
+                </div>
+
+                <div class="mt-4 p-8 border-t border-slate-700/50 relative overflow-hidden min-h-[220px]">
+                    <div class="absolute inset-0 bg-gradient-to-b from-brand-900/5 to-transparent pointer-events-none"></div>
+                    
+                    <div id="phase-1" class="roadmap-detail">
+                        <h4 class="text-2xl font-serif text-white mb-4 flex items-center gap-2">Launch Werbung Semester 1 & 2</h4>
+                        <div class="flex justify-between gap-8 flex-col md:flex-row">
+                            <p class="text-slate-300 md:w-2/3 leading-relaxed">Aktuell verzeichnen Semester 1 & 2 nur 10 bis 12 Buchungen. Das kurzfristige Ziel ist es, die Meta-Business Blockaden (Verifizierung, VAE-SIM) aufzulösen und flächendeckend Video-Anzeigen auszustrahlen. Einbindung zielgruppenspezifischer Testimonials und des neuen Social-Media-Gesichts.</p>
+                            <div class="md:w-1/3 p-4 bg-slate-800/40 rounded-lg border border-slate-700">
+                                <div class="text-xs text-brand-400 uppercase mb-2">KPIokus</div>
+                                <div class="font-bold text-white">Sichtbarkeit vs. CAC</div>
+                                <p class="text-xs text-slate-400 mt-1">Erhöhung der Impressions ohne Fokusverlust auf Rentabilität.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="phase-2" class="roadmap-detail hidden">
+                        <h4 class="text-2xl font-serif text-white mb-4 flex items-center gap-2">Veröffentlichung von Semester 3</h4>
+                        <div class="flex justify-between gap-8 flex-col md:flex-row">
+                            <p class="text-slate-300 md:w-2/3 leading-relaxed">Der Content für das 3. Semester befindet sich derzeit in der Aufnahme. Parallel zur Vermarktung von S1/S2 muss dieses Semester technisch einwandfrei in das automatisierte Lernsystem (Lebenslanger Zugang) eingepflegt werden.</p>
+                            <div class="md:w-1/3 p-4 bg-slate-800/40 rounded-lg border border-slate-700">
+                                <div class="text-xs text-brand-400 uppercase mb-2">Output</div>
+                                <div class="font-bold text-white">Lernportal Integration</div>
+                                <p class="text-xs text-slate-400 mt-1">Sicherstellung des automatisierten Framings und Funnels.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="phase-3" class="roadmap-detail hidden">
+                        <h4 class="text-2xl font-serif text-white mb-4 flex items-center gap-2">Aufwertung: Von 4 auf 6 Module</h4>
+                        <div class="flex justify-between gap-8 flex-col md:flex-row">
+                            <p class="text-slate-300 md:w-2/3 leading-relaxed">Strategische Expansion des bestehenden Materials: Jedes Semester wird von vier auf sechs Module erweitert. Zusätzlich werden die von KI (Notebook LM/Gemini) erzeugten Skripte und Handouts beigefügt. Ein potenzielles wissenschaftliches Buch rundet das Lernangebot ab.</p>
+                            <div class="md:w-1/3 p-4 bg-slate-800/40 rounded-lg border border-slate-700">
+                                <div class="text-xs text-brand-400 uppercase mb-2">Retention</div>
+                                <div class="font-bold text-white">Wertschöpfung</div>
+                                <p class="text-xs text-slate-400 mt-1">Kundenakzeptanz stärken durch kommunizierte Kurs-Erweiterungen.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="phase-4" class="roadmap-detail hidden">
+                        <h4 class="text-2xl font-serif text-brand-400 mb-4 flex items-center gap-2">"Projekt 3.0" – Das Premium Portal</h4>
+                        <div class="flex justify-between gap-8 flex-col md:flex-row">
+                            <p class="text-slate-300 md:w-2/3 leading-relaxed">Sobald die finanziellen Mittel aus MS1-MS3 bereitstehen (z.B. aus den 100 Semesterbuchungen à 149€), fließen diese Investitionen in das Redesign ("Projekt 3.0"). Eine technische Evolution, um spezifisch jüngere Studierende anzusprechen, UX/UI zu modernisieren und die Marke zu festigen.</p>
+                            <div class="md:w-1/3 p-4 border border-brand-500/30 bg-brand-900/20 rounded-lg shadow-[0_0_15px_rgba(4,120,87,0.2)]">
+                                <div class="text-xs text-brand-400 uppercase mb-2">Zielvorgabe</div>
+                                <div class="font-bold text-white">Autarkes Ökosystem</div>
+                                <p class="text-xs text-slate-400 mt-1">Sicherung operativer Gehälter und vollständige Unabhängigkeit künftiger Reichweiten.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Strategy -->
+        <section id="strategy" class="scroll-mt-32 gs-reveal">
+            <h2 class="text-3xl font-serif font-bold text-white mb-2">Die Wachstumsstrategie</h2>
+            <p class="text-slate-400 mb-8 max-w-2xl">Vier konkrete Säulen zur Margen-Optimierung und Reichweitengewinnung basierend auf den jüngsten Beschlüssen.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 border-t border-t-emerald-500/50 relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 text-slate-800 opacity-20"><i data-lucide="zap" class="w-32 h-32"></i></div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4">1. Hochmargige Automatisierung</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">Wechsel von teurer Betreuungszeit (Mentoring) auf automatisierte Systeme (Semesterkurse), bei denen 100% des Preises (149€) nach Steuern bleiben.</p>
+                        <div class="flex items-center gap-2 text-brand-400 text-sm font-semibold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Kein Mentoring-Zeitaufwand
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 border-t border-t-blue-500/50 relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 text-slate-800 opacity-20"><i data-lucide="users" class="w-32 h-32"></i></div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4">2. Edutainment für Brand Awareness</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">Weg von trockener Religion-Theorie, hin zu dynamischen Videos auf Social Media durch ein junges (20J), redegewandtes Gesicht, um die Plattform organisch bekannt zu machen.</p>
+                        <div class="flex items-center gap-2 text-blue-400 text-sm font-semibold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Organische TikTok/Reel Reichweite
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 border-t border-t-purple-500/50 relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 text-slate-800 opacity-20"><i data-lucide="user-plus" class="w-32 h-32"></i></div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4">3. Zielgruppenspezifische Upsells</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">Direkte Adressierung weiblicher Nutzer ("doppelt mehr Buchungsrate") durch eine Partnerschaftskampagne mit der Schwester von Scheich Ermin (Tajwid/Arabisch).</p>
+                        <div class="flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Nischen-Marketing Conversion
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 border-t border-t-amber-500/50 relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 text-slate-800 opacity-20"><i data-lucide="refresh-cw" class="w-32 h-32"></i></div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4">4. Retention durch Iteration</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">Aktive Kommunikation in der Werbung, dass die Kurse fortlaufend erweitert werden (z.B. neue KI-Handouts, von 4 auf 6 Module). Steigert die Preiszufriedenheit massiv.</p>
+                        <div class="flex items-center gap-2 text-amber-400 text-sm font-semibold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Long-Term Customer Value
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-32 border-t border-slate-800 bg-slate-900/50 backdrop-blur-sm py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <i data-lucide="crescent" class="text-brand-500 w-5 h-5"></i>
+                <span class="font-serif font-bold tracking-wider text-white">LIFEGUIDANCE NETWORK</span>
+            </div>
+            <p class="text-slate-500 text-sm mb-2">Exklusives Executive Dashboard generiert aus gesicherten Besprechungsnotizen.</p>
+            <p class="text-slate-600 text-xs uppercase tracking-widest">&copy; 2026 Islamstudium Strategic Operations</p>
+        </div>
+    </footer>
+
+    <!-- Init -->
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Checkbox Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const progressText = document.getElementById('progress-text');
+            const progressBar = document.getElementById('progress-bar');
+            
+            function updateProgress() {
+                const total = checkboxes.length;
+                let checked = 0;
+                
+                checkboxes.forEach(box => {
+                    const textEl = box.nextElementSibling.querySelector('.task-text');
+                    const labelBox = box.nextElementSibling.querySelector('span'); // The prio pill
+                    
+                    if (box.checked) {
+                        checked++;
+                        textEl.classList.add('task-done');
+                        if (labelBox) labelBox.style.opacity = '0.5';
+                    } else {
+                        textEl.classList.remove('task-done');
+                        if (labelBox) labelBox.style.opacity = '1';
+                    }
+                });
+                
+                progressText.textContent = `${checked} / ${total}`;
+                
+                let percent = (checked / total) * 100;
+                progressBar.style.width = `${percent}%`;
+            }
+
+            checkboxes.forEach(box => {
+                box.addEventListener('change', updateProgress);
+            });
+            updateProgress();
+
+            // Roadmap Logic
+            const roadmapBtns = document.querySelectorAll('.roadmap-btn');
+            const roadmapDetails = document.querySelectorAll('.roadmap-detail');
+
+            roadmapBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    roadmapBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    roadmapDetails.forEach(detail => {
+                        detail.classList.add('hidden');
+                        detail.style.opacity = 0;
+                    });
+                    
+                    const targetId = btn.getAttribute('data-target');
+                    const currentDetail = document.getElementById(targetId);
+                    currentDetail.classList.remove('hidden');
+                    
+                    // Small fade-in animation
+                    gsap.to(currentDetail, {
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 0.4, 
+                        ease: "power2.out", 
+                        clearProps: "y"
+                    });
+                });
+            });
+
+            // Chart.js with exact data & gradient styling
+            const ctx = document.getElementById('kpiChart').getContext('2d');
+            
+            let gradient1 = ctx.createLinearGradient(0, 0, 400, 0);
+            gradient1.addColorStop(0, 'rgba(15, 23, 42, 0.8)');
+            gradient1.addColorStop(1, 'rgba(51, 65, 85, 0.4)');
+
+            let gradient2 = ctx.createLinearGradient(0, 0, 400, 0);
+            gradient2.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
+            gradient2.addColorStop(1, 'rgba(52, 211, 153, 0.2)');
+
+            let gradient3 = ctx.createLinearGradient(0, 0, 400, 0);
+            gradient3.addColorStop(0, 'rgba(4, 120, 87, 1)');
+            gradient3.addColorStop(1, 'rgba(16, 185, 129, 0.8)');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Basis (Nutzer insgesamt)', 'Zielgruppen Fokus', 'Vorgabe (Umsatz-Sicherung)'],
+                    datasets: [{
+                        label: 'Daten ',
+                        data: [4700, 1500, 100], 
+                        backgroundColor: [gradient1, gradient2, gradient3],
+                        borderColor: ['#334155', '#10b981', '#047857'],
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        barThickness: 'flex'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', 
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#34d399',
+                            bodyColor: '#fff',
+                            bodyFont: { size: 14, family: 'Outfit' },
+                            padding: 12,
+                            borderColor: 'rgba(52, 211, 153, 0.2)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    if(context.parsed.y === 2) {
+                                        return '100 Buchungen à 149€ = 15.000€';
+                                    }
+                                    return context.raw + ' Personen';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#64748b', font: {family: 'Outfit'} }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: {family: 'Outfit'} }
+                        }
+                    }
+                }
+            });
+
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+
+            const heroElements = document.querySelector('#hero-section').children;
+            gsap.from(heroElements, {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            const sections = gsap.utils.toArray('.gs-reveal');
+            sections.forEach(function(elem) {
+                gsap.from(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 80%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
