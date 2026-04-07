@@ -124,6 +124,42 @@
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Light Theme Options */
+        body.theme-light {
+            background-color: #f8fafc;
+            color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(52, 211, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(4, 120, 87, 0.1) 0px, transparent 50%);
+        }
+        
+        body.theme-light .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        body.theme-light .text-white { color: #0f172a !important; }
+        body.theme-light .text-slate-400 { color: #475569 !important; }
+        body.theme-light .text-slate-300 { color: #334155 !important; }
+        body.theme-light .text-slate-500 { color: #64748b !important; }
+        
+        body.theme-light .bg-slate-800 { background-color: #e2e8f0 !important; }
+        body.theme-light .bg-slate-800\/30 { background-color: rgba(241, 245, 249, 0.8) !important; }
+        body.theme-light .bg-slate-800\/40 { background-color: rgba(226, 232, 240, 0.8) !important; }
+        body.theme-light .bg-slate-900\/60 { background-color: rgba(248, 250, 252, 0.8) !important; }
+        body.theme-light .bg-brand-950\/30 { background-color: rgba(236, 253, 245, 0.8) !important; }
+        
+        body.theme-light .border-slate-700, 
+        body.theme-light .border-slate-700\/50, 
+        body.theme-light .border-slate-800, 
+        body.theme-light .border-slate-800\/60,
+        body.theme-light nav.border-b-0 { border-color: #cbd5e1 !important; }
+        
+        body.theme-light .text-brand-300 { color: #047857 !important; }
+        body.theme-light .text-brand-400 { color: #059669 !important; }
+        body.theme-light .text-blue-400 { color: #2563eb !important; }
     </style>
 </head>
 <body class="antialiased min-h-screen pb-20 overflow-x-hidden">
@@ -138,14 +174,20 @@
                         MARKETING <span class="font-light text-brand-300">STRATEGIE</span>
                     </span>
                 </div>
-                <div class="hidden md:block">
-                    <div class="flex items-baseline space-x-8">
-                        <a href="#status-quo" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">1. Wo wir stehen</a>
-                        <a href="#target" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">2. Wo wir hinwollen</a>
-                        <a href="#path" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">3. Der Weg dorthin</a>
-                        <a href="#shortcuts" class="text-sm font-medium text-brand-400 hover:text-brand-300 transition-colors">4. Die Shortcuts</a>
-                        <a href="#bookings" class="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors">5. Buchungen</a>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:block">
+                        <div class="flex items-baseline space-x-8">
+                            <a href="#status-quo" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">1. Wo wir stehen</a>
+                            <a href="#target" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">2. Wo wir hinwollen</a>
+                            <a href="#path" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">3. Der Weg dorthin</a>
+                            <a href="#shortcuts" class="text-sm font-medium text-brand-400 hover:text-brand-300 transition-colors">4. Die Shortcuts</a>
+                            <a href="#bookings" class="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors">5. Buchungen</a>
+                        </div>
                     </div>
+                    <button id="themeToggle" class="p-2 ml-2 rounded-full glass-panel transition border border-slate-700/50 flex flex-col items-center justify-center">
+                        <i data-lucide="sun" class="w-5 h-5 text-amber-500 sun-icon"></i>
+                        <i data-lucide="moon" class="w-5 h-5 text-indigo-500 moon-icon hidden"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -187,7 +229,7 @@
                         <i data-lucide="map-pin" class="w-16 h-16 text-slate-600 mx-auto mb-4"></i>
                         <div class="text-sm text-slate-400 uppercase tracking-wider mb-2">Gesamt-Buchungen (alle Produkte)</div>
                         <div class="text-6xl font-light text-white">805</div>
-                        <div class="mt-4 text-slate-400 text-sm">Davon 61 reine Semesterkurs-Buchungen (S1 + S2)</div>
+                        <div class="mt-4 text-slate-400 text-sm">Davon 124 reine Semesterkurs-Buchungen (S1 + S2)</div>
                         <div class="mt-6 text-left space-y-2">
                             <div class="flex items-start gap-2 text-xs text-slate-500"><span class="text-amber-400 mt-0.5">●</span> 2024: 196 · 2025: 476 · 2026: 133 Buchungen</div>
                             <div class="flex items-start gap-2 text-xs text-slate-500"><span class="text-red-400 mt-0.5">✕</span> Meta-Verifizierung blockiert (Prepaid-SIM)</div>
@@ -731,7 +773,7 @@
                         <div class="h-px bg-slate-800"></div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-slate-400">Semesterkurse</span>
-                            <span class="text-sm font-bold text-brand-400">61</span>
+                            <span class="text-sm font-bold text-brand-400">124</span>
                         </div>
                         <div class="h-px bg-slate-800"></div>
                         <div class="flex justify-between items-center">
@@ -762,6 +804,36 @@
     <script>
         // Init Icons
         lucide.createIcons();
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        
+        // Check saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('theme-light');
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('theme-light');
+                const isLight = document.body.classList.contains('theme-light');
+                
+                if (isLight) {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
 
         // Checkbox Logic
         document.addEventListener('DOMContentLoaded', () => {
@@ -812,7 +884,7 @@
                     labels: ['Wegstrecke (Buchungen)'],
                     datasets: [{
                         label: 'Aktuell',
-                        data: [61], 
+                        data: [124], 
                         backgroundColor: gradientFill,
                         borderColor: '#10b981',
                         borderWidth: 1,
@@ -844,11 +916,12 @@
                                 font: {family: 'Outfit'},
                                 callback: function(value) {
                                     if(value === 100) return "ZIEL: 100";
+                                    if(value === 150) return "ZIEL 2: 150";
                                     if(value === 0) return "START: 0";
                                     return value;
                                 }
                             },
-                            max: 100
+                            max: 150
                         },
                         y: {
                             grid: { display: false },
