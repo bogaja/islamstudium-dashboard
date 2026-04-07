@@ -209,12 +209,14 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-32 relative">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative pb-32">
 
-        <!-- Connecting Line through the page (Visible on Desktop) -->
-        <div class="hidden lg:block map-line top-32 opacity-20" style="height: 80%;"></div>
+        <!-- Sections 1 to 4 Wrapper for Map Line -->
+        <div class="relative space-y-32">
+            <!-- Connecting Line through the page (Visible on Desktop) -->
+            <div class="hidden lg:block map-line top-32 bottom-0 opacity-20"></div>
 
-        <!-- Section 1: Wo wir stehen -->
+            <!-- Section 1: Wo wir stehen -->
         <section id="status-quo" class="scroll-mt-32 gs-reveal relative z-10">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2">
@@ -536,8 +538,10 @@
             </div>
         </section>
 
+        </div>
+
         <!-- Section 5: Buchungsübersicht -->
-        <section id="bookings" class="scroll-mt-32 gs-reveal relative z-10">
+        <section id="bookings" class="scroll-mt-32 gs-reveal relative z-10 mt-32">
             <div class="mb-12 text-center">
                 <div class="inline-block px-3 py-1 rounded bg-cyan-500/20 text-cyan-400 uppercase tracking-widest text-sm font-bold mb-3 border border-cyan-500/30">Daten</div>
                 <h2 class="text-4xl font-serif font-bold text-white mb-4">Buchungsübersicht <span class="text-cyan-500/50 font-light block mt-1">(Alle Produkte)</span></h2>
@@ -594,62 +598,110 @@
                             <p class="text-xs text-slate-400">Übersicht: Abhängigkeit vs. 100% Eigentum</p>
                         </div>
                     </div>
-                    <div class="p-5 space-y-4 max-h-[500px] overflow-y-auto">
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg border-l-4 border-l-emerald-500">
-                            <div class="flex items-center gap-3">
-                                <span class="text-white text-sm font-medium">Semester 1 (Gesamt)</span>
+                    <div class="p-6 space-y-8 max-h-[500px] overflow-y-auto">
+                        
+                        <!-- Semester 1 -->
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Semester 1</h4>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-2xl font-light text-white">163</span>
+                                    <span class="text-xs text-slate-500 uppercase block">Buchungen</span>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <span class="text-white font-bold">163</span>
-                                <span class="text-slate-400 text-xs ml-1">Buchungen</span>
+                            
+                            <!-- Progress Bar -->
+                            <div class="w-full flex h-3 bg-slate-800 rounded-full overflow-hidden mb-3">
+                                <div class="bg-red-500/80 h-full" style="width: 90.8%; border-right: 2px solid #0f172a;" title="Abhängig: 148"></div>
+                                <div class="bg-emerald-500/80 h-full" style="width: 9.2%;" title="Unabhängig: 15"></div>
                             </div>
-                        </div>
-                        <div class="pl-4 space-y-2 text-sm text-slate-400 mb-4">
-                            <div class="p-2 rounded bg-red-500/10 text-red-300">
-                                <div class="flex justify-between font-medium"><span>Abhängig (Mentor: Sh Amen)</span><span>148</span></div>
-                            </div>
-                            <div class="p-2 rounded bg-emerald-500/10 text-emerald-300">
-                                <div class="flex justify-between font-medium mb-1"><span>Unabhängig (Selbststudium)</span><span>15</span></div>
-                                <div class="flex justify-between text-xs opacity-75"><span>- Einmalkauf</span><span>7</span></div>
-                                <div class="flex justify-between text-xs opacity-75"><span>- Abo</span><span>4</span></div>
-                                <div class="flex justify-between text-xs opacity-75"><span>- Einzelmodule (Fiqh, Tazkiyah, Aqida)</span><span>4</span></div>
+                            
+                            <!-- Legend & Breakdown -->
+                            <div class="grid grid-cols-2 gap-4 text-sm mt-3">
+                                <div class="p-3 rounded-lg bg-slate-800/40 border border-red-500/20">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                        <span class="text-slate-300 font-medium">Abhängig <span class="text-slate-500 text-xs hidden md:inline">(Mentoring)</span></span>
+                                    </div>
+                                    <div class="text-2xl font-bold text-white ml-4">148</div>
+                                </div>
+                                <div class="p-3 rounded-lg bg-slate-800/40 border border-emerald-500/20">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        <span class="text-slate-300 font-medium">Unabhängig <span class="text-slate-500 text-xs hidden md:inline">(Selbststudium)</span></span>
+                                    </div>
+                                    <div class="text-2xl font-bold text-white ml-4">
+                                        15
+                                        <span class="text-[10px] uppercase font-normal text-slate-500 ml-1">(Einmalkauf, Abo, Einzel)</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg border-l-4 border-l-blue-500 mt-4">
-                            <div class="flex items-center gap-3">
-                                <span class="text-white text-sm font-medium">Semester 2 (Gesamt)</span>
+                        <div class="h-px w-full bg-slate-800/60"></div>
+                        
+                        <!-- Semester 2 -->
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Semester 2</h4>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-2xl font-light text-white">109</span>
+                                    <span class="text-xs text-slate-500 uppercase block">Buchungen</span>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <span class="text-white font-bold">109</span>
-                                <span class="text-slate-400 text-xs ml-1">Buchungen</span>
+                            
+                            <!-- Progress Bar -->
+                            <div class="w-full flex h-3 bg-slate-800 rounded-full overflow-hidden mb-3">
+                                <div class="bg-red-500/80 h-full" style="width: 97.2%; border-right: 2px solid #0f172a;" title="Abhängig: 106"></div>
+                                <div class="bg-emerald-500/80 h-full" style="width: 2.8%;" title="Unabhängig: 3"></div>
+                            </div>
+                            
+                            <!-- Legend & Breakdown -->
+                            <div class="grid grid-cols-2 gap-4 text-sm mt-3">
+                                <div class="p-3 rounded-lg bg-slate-800/40 border border-red-500/20">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                        <span class="text-slate-300 font-medium">Abhängig <span class="text-slate-500 text-xs hidden md:inline">(Mentoring)</span></span>
+                                    </div>
+                                    <div class="text-2xl font-bold text-white ml-4">106</div>
+                                </div>
+                                <div class="p-3 rounded-lg bg-slate-800/40 border border-emerald-500/20">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        <span class="text-slate-300 font-medium">Unabhängig <span class="text-slate-500 text-xs hidden md:inline">(Selbststudium)</span></span>
+                                    </div>
+                                    <div class="text-2xl font-bold text-white ml-4">3</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="pl-4 space-y-2 text-sm text-slate-400 mb-4">
-                            <div class="p-2 rounded bg-red-500/10 text-red-300">
-                                <div class="flex justify-between font-medium"><span>Abhängig (Mentor: Sh Amen)</span><span>106</span></div>
-                            </div>
-                            <div class="p-2 rounded bg-emerald-500/10 text-emerald-300">
-                                <div class="flex justify-between font-medium mb-1"><span>Unabhängig (Selbststudium)</span><span>3</span></div>
-                                <div class="flex justify-between text-xs opacity-75"><span>- Einmalkauf & Abo</span><span>3</span></div>
+                        
+                        <div class="h-px w-full bg-slate-800/60"></div>
+
+                        <!-- Semester 3 -->
+                        <div>
+                            <div class="flex justify-between items-center p-5 bg-slate-800/30 rounded-xl border border-dashed border-slate-600 transition hover:bg-slate-800/50">
+                                <div class="flex items-center gap-4">
+                                    <div class="p-3 bg-slate-800/80 rounded-full"><i data-lucide="video" class="w-5 h-5 text-slate-400"></i></div>
+                                    <div>
+                                        <h4 class="text-white font-bold">Semester 3</h4>
+                                        <p class="text-xs text-slate-400 mt-0.5">100% Selbststudium Konzept</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="inline-block px-3 py-1.5 bg-amber-500/10 text-amber-500 text-xs rounded-full font-bold border border-amber-500/20 tracking-wide">IN AUFNAHME</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg mt-4 border-l-4 border-l-slate-600 border border-dashed border-slate-600">
-                            <div class="flex items-center gap-3">
-                                <span class="text-slate-400 text-sm font-medium">Semester 3 (100% Selbststudium)</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-slate-500 font-bold">0</span>
-                                <span class="text-slate-500 text-xs ml-1">(in Aufnahme)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                     </div>
                 </div>
 
                 <!-- Mentoring & Other Programs -->
-                <div class="glass-panel rounded-2xl overflow-hidden border-purple-500/10">
+                <div class="glass-panel rounded-2xl overflow-hidden border-purple-500/10 flex flex-col">
                     <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
                         <div class="p-3 bg-purple-500/10 text-purple-400 rounded-full"><i data-lucide="users" class="w-5 h-5"></i></div>
                         <div>
