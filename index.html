@@ -112,7 +112,7 @@
         .map-line {
             position: absolute;
             width: 2px;
-            background: linear-gradient(to bottom, #34d399 50%, transparent 50%);
+            background: linear-gradient(to bottom, transparent, #34d399 15%, #34d399 85%, transparent);
             background-size: 100% 20px;
             z-index: 0;
             left: 50%;
@@ -212,7 +212,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-32 relative">
 
         <!-- Connecting Line through the page (Visible on Desktop) -->
-        <div class="hidden lg:block map-line top-20 opacity-20" style="height: 60%;"></div>
+        <div class="hidden lg:block map-line top-32 opacity-20" style="height: 80%;"></div>
 
         <!-- Section 1: Wo wir stehen -->
         <section id="status-quo" class="scroll-mt-32 gs-reveal relative z-10">
@@ -221,7 +221,7 @@
                     <div class="inline-block px-3 py-1 rounded bg-slate-800 text-slate-300 text-sm font-bold mb-3 border border-slate-700">Phase 1</div>
                     <h2 class="text-4xl font-serif font-bold text-white mb-4">Wo wir stehen <span class="text-slate-500 font-light block mt-1">(Status Quo)</span></h2>
                     <p class="text-slate-400 text-lg leading-relaxed mb-6">
-                        Die Plattform hat insgesamt <strong class="text-white">808 Buchungen</strong> über alle Produkte erzielt (2024: 196, 2025: 476, 2026: 136). Davon entfallen <strong class="text-white">18 auf S1 und 44 auf S2</strong> als Selbststudium-Semesterkurse. Die Plattform ist finanziell <strong class="text-white">massiv von der Reichweite externer Influencer</strong> (Scheich Amin, Fabian) abhängig – ohne sie wäre es ein "Low-Budget-Projekt". Dazu blockiert eine <strong class="text-white">VAE-Prepaid-SIM</strong> die Meta-Verifizierung und eine <strong class="text-white">Fehlberatung der alten Buchhaltung</strong> kostete 850€ Strafe (neue Buchhalterin hat inzwischen 2024 abgeschlossen und Entwarnung gegeben). Der Fokus liegt jetzt auf dem <strong class="text-white">Ausbau der Semester 1, 2 und 3</strong> als Hauptumsatzträger mit 100% Marge, komplett losgelöst von Mentoren.
+                        Die Plattform hat insgesamt <strong class="text-white">808 Buchungen</strong> über alle Produkte erzielt (2024: 196, 2025: 476, 2026: 136). Aktuell ist die Plattform finanziell <strong class="text-white">massiv von der Reichweite externer Influencer und Mentoren</strong> (Scheich Amin, Fabian) abhängig – ohne sie wäre es ein reines "Low-Budget-Projekt". Die Zahlen zeigen deutlich, dass fast alle Verkäufe an einen Mentor gebunden sind. Der Fokus liegt ganz klar auf dem <strong class="text-white">Ausbau der Semester 1, 2 und 3 als reines Selbststudium</strong> (ohne Mentoren) – hier verbleiben 100% der Marge bei uns, was Skalierbarkeit und unternehmerische Unabhängigkeit bedeutet.
                     </p>
                 </div>
                 <div class="lg:w-1/2 w-full">
@@ -229,7 +229,7 @@
                         <i data-lucide="map-pin" class="w-16 h-16 text-slate-600 mx-auto mb-4"></i>
                         <div class="text-sm text-slate-400 uppercase tracking-wider mb-2">Gesamt-Buchungen (alle Produkte)</div>
                         <div class="text-6xl font-light text-white">808</div>
-                        <div class="mt-4 text-slate-400 text-sm">Davon 62 reine Semesterkurs-Buchungen (S1 + S2)</div>
+                        <div class="mt-4 text-slate-400 text-sm">Hauptumsatz derzeit abhängig von Mentoren</div>
                         <div class="mt-6 text-left space-y-2">
                             <div class="flex items-start gap-2 text-xs text-slate-500"><span class="text-amber-400 mt-0.5">●</span> 2024: 196 · 2025: 476 · 2026: 136 Buchungen</div>
                             <div class="flex items-start gap-2 text-xs text-slate-500"><span class="text-red-400 mt-0.5">✕</span> Meta-Verifizierung blockiert (Prepaid-SIM)</div>
@@ -271,8 +271,9 @@
 
         <!-- Dynamic Chart between Status and Goal -->
         <section class="gs-reveal relative z-10 hidden lg:block">
-            <div class="glass-panel p-8 rounded-2xl">
-                <h3 class="text-center font-bold text-slate-400 mb-6 uppercase tracking-widest text-sm">Der Gap-Report</h3>
+            <div class="glass-panel p-8 rounded-2xl text-center">
+                <h3 class="font-bold text-slate-400 mb-2 uppercase tracking-widest text-sm">Fortschrittsanalyse (Gap-Report)</h3>
+                <p class="text-sm text-slate-500 mb-6 max-w-xl mx-auto">Visuelle Erklärung: Der Gap-Report (die Lücke) zeigt an, wie weit wir noch von unserem primären Ziel (100 reine Selbststudium-Verkäufe ohne Mentoren) entfernt sind, um schnell profitable Einnahmen zu erzielen.</p>
                 <div class="h-[120px] relative">
                     <canvas id="mapChart"></canvas>
                 </div>
@@ -589,44 +590,53 @@
                     <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
                         <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-full"><i data-lucide="graduation-cap" class="w-5 h-5"></i></div>
                         <div>
-                            <h3 class="font-bold text-lg">Semesterkurse (Selbststudium)</h3>
-                            <p class="text-xs text-slate-400">Alle Buchungen = 100% ohne Mentoring</p>
+                            <h3 class="font-bold text-lg">Alle Semesterkurse</h3>
+                            <p class="text-xs text-slate-400">Übersicht: Abhängigkeit vs. 100% Eigentum</p>
                         </div>
                     </div>
-                    <div class="p-5 space-y-4">
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
+                    <div class="p-5 space-y-4 max-h-[500px] overflow-y-auto">
+                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg border-l-4 border-l-emerald-500">
                             <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                                <span class="text-white text-sm font-medium">Semester 1</span>
+                                <span class="text-white text-sm font-medium">Semester 1 (Gesamt)</span>
                             </div>
                             <div class="text-right">
-                                <span class="text-white font-bold">18</span>
+                                <span class="text-white font-bold">163</span>
                                 <span class="text-slate-400 text-xs ml-1">Buchungen</span>
                             </div>
                         </div>
-                        <div class="pl-6 space-y-1 text-xs text-slate-400">
-                            <div class="flex justify-between"><span>Sh Amen (S1)</span><span class="text-slate-300 font-medium">13</span></div>
-                            <div class="flex justify-between"><span>Islamstudium (S1)</span><span class="text-slate-300 font-medium">4</span></div>
-                            <div class="flex justify-between"><span>Bin Uthaimin Akademie (S1)</span><span class="text-slate-300 font-medium">1</span></div>
+                        <div class="pl-4 space-y-2 text-sm text-slate-400 mb-4">
+                            <div class="p-2 rounded bg-red-500/10 text-red-300">
+                                <div class="flex justify-between font-medium"><span>Abhängig (Mentor: Sh Amen)</span><span>148</span></div>
+                            </div>
+                            <div class="p-2 rounded bg-emerald-500/10 text-emerald-300">
+                                <div class="flex justify-between font-medium mb-1"><span>Unabhängig (Selbststudium)</span><span>15</span></div>
+                                <div class="flex justify-between text-xs opacity-75"><span>- Einmalkauf</span><span>7</span></div>
+                                <div class="flex justify-between text-xs opacity-75"><span>- Abo</span><span>4</span></div>
+                                <div class="flex justify-between text-xs opacity-75"><span>- Einzelmodule (Fiqh, Tazkiyah, Aqida)</span><span>4</span></div>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg mt-4">
+
+                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg border-l-4 border-l-blue-500 mt-4">
                             <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                                <span class="text-white text-sm font-medium">Semester 2</span>
+                                <span class="text-white text-sm font-medium">Semester 2 (Gesamt)</span>
                             </div>
                             <div class="text-right">
-                                <span class="text-white font-bold">44</span>
+                                <span class="text-white font-bold">109</span>
                                 <span class="text-slate-400 text-xs ml-1">Buchungen</span>
                             </div>
                         </div>
-                        <div class="pl-6 space-y-1 text-xs text-slate-400">
-                            <div class="flex justify-between"><span>Sh Amen (S2)</span><span class="text-slate-300 font-medium">43</span></div>
-                            <div class="flex justify-between"><span>Abo (S2)</span><span class="text-slate-300 font-medium">1</span></div>
+                        <div class="pl-4 space-y-2 text-sm text-slate-400 mb-4">
+                            <div class="p-2 rounded bg-red-500/10 text-red-300">
+                                <div class="flex justify-between font-medium"><span>Abhängig (Mentor: Sh Amen)</span><span>106</span></div>
+                            </div>
+                            <div class="p-2 rounded bg-emerald-500/10 text-emerald-300">
+                                <div class="flex justify-between font-medium mb-1"><span>Unabhängig (Selbststudium)</span><span>3</span></div>
+                                <div class="flex justify-between text-xs opacity-75"><span>- Einmalkauf & Abo</span><span>3</span></div>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg mt-4 border border-dashed border-slate-600">
+                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg mt-4 border-l-4 border-l-slate-600 border border-dashed border-slate-600">
                             <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-slate-600"></span>
-                                <span class="text-slate-400 text-sm font-medium">Semester 3</span>
+                                <span class="text-slate-400 text-sm font-medium">Semester 3 (100% Selbststudium)</span>
                             </div>
                             <div class="text-right">
                                 <span class="text-slate-500 font-bold">0</span>
@@ -635,14 +645,16 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
 
                 <!-- Mentoring & Other Programs -->
                 <div class="glass-panel rounded-2xl overflow-hidden border-purple-500/10">
                     <div class="p-5 border-b border-slate-700/50 bg-slate-800/30 flex items-center gap-3">
                         <div class="p-3 bg-purple-500/10 text-purple-400 rounded-full"><i data-lucide="users" class="w-5 h-5"></i></div>
                         <div>
-                            <h3 class="font-bold text-lg">Mentoring & Weitere</h3>
-                            <p class="text-xs text-slate-400">Aufschlüsselung aller Mentoring-Pakete</p>
+                            <h3 class="font-bold text-lg">Mentoring & Übrige Kurse</h3>
+                            <p class="text-xs text-slate-400">Komplette Übersicht der verbleibenden Einzelprodukte</p>
                         </div>
                     </div>
                     <div class="p-5 space-y-4 max-h-[500px] overflow-y-auto">
@@ -650,37 +662,27 @@
                         <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
                             <div class="flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-purple-500"></span>
-                                <span class="text-white text-sm font-medium">Level 1 & Mentoring Premium</span>
+                                <span class="text-white text-sm font-medium">Menschen betreutes Mentoring (Alle Stufen)</span>
                             </div>
-                            <span class="text-white font-bold">218</span>
+                            <span class="text-white font-bold">144</span>
                         </div>
                         <div class="pl-6 space-y-1 text-xs text-slate-400">
-                            <div class="flex justify-between"><span>Total Level 1 Mentoring</span><span class="text-slate-300 font-medium">129</span></div>
-                            <div class="flex justify-between"><span>Total Mentoring Premium</span><span class="text-slate-300 font-medium">89</span></div>
-                        </div>
-                        <!-- Mentoring Medium -->
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
-                            <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
-                                <span class="text-white text-sm font-medium">Mentoring Medium</span>
-                            </div>
-                            <span class="text-white font-bold">18</span>
-                        </div>
-                        <!-- Mentoring Basics -->
-                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
-                            <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                                <span class="text-white text-sm font-medium">Mentoring Basics</span>
-                            </div>
-                            <span class="text-white font-bold">19</span>
+                            <div class="flex justify-between"><span>Premium (Fabian, Maida, Burhan)</span><span class="text-slate-300 font-medium">109</span></div>
+                            <div class="flex justify-between"><span>Medium (Fabian)</span><span class="text-slate-300 font-medium">16</span></div>
+                            <div class="flex justify-between"><span>Basics (Verschiedene)</span><span class="text-slate-300 font-medium">19</span></div>
                         </div>
                         <!-- Arabisch -->
                         <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
                             <div class="flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                                <span class="text-white text-sm font-medium">Arabisch & Tajweed</span>
+                                <span class="text-white text-sm font-medium">Arabisch, Tajweed & Medina</span>
                             </div>
-                            <span class="text-white font-bold">107</span>
+                            <span class="text-white font-bold">48</span>
+                        </div>
+                        <div class="pl-6 space-y-1 text-xs text-slate-400">
+                            <div class="flex justify-between"><span>Arabisch Schwestern (Lv1, Lv2, etc)</span><span class="text-slate-300 font-medium">22</span></div>
+                            <div class="flex justify-between"><span>Medina Bücher 1-3</span><span class="text-slate-300 font-medium">17</span></div>
+                            <div class="flex justify-between"><span>Tajweed & AlifBa</span><span class="text-slate-300 font-medium">9</span></div>
                         </div>
                         <!-- Q/A -->
                         <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
@@ -688,7 +690,7 @@
                                 <span class="w-3 h-3 rounded-full bg-rose-500"></span>
                                 <span class="text-white text-sm font-medium">Fragenservice (Q/A)</span>
                             </div>
-                            <span class="text-white font-bold">42</span>
+                            <span class="text-white font-bold">18</span>
                         </div>
                         <!-- Jugend -->
                         <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
@@ -696,7 +698,15 @@
                                 <span class="w-3 h-3 rounded-full bg-teal-500"></span>
                                 <span class="text-white text-sm font-medium">Jugendkurse (13-16J)</span>
                             </div>
-                            <span class="text-white font-bold">32</span>
+                            <span class="text-white font-bold">21</span>
+                        </div>
+                        <!-- Einzelkurse -->
+                        <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+                                <span class="text-white text-sm font-medium">Sonstige Kurzkurse & Einzeltitel</span>
+                            </div>
+                            <span class="text-white font-bold">22</span>
                         </div>
                     </div>
                 </div>
@@ -869,7 +879,7 @@
                     labels: ['Wegstrecke (Buchungen)'],
                     datasets: [{
                         label: 'Aktuell',
-                        data: [62], 
+                        data: [18], 
                         backgroundColor: gradientFill,
                         borderColor: '#10b981',
                         borderWidth: 1,
@@ -922,13 +932,12 @@
             new Chart(pieCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Semester 2', 'Mentoring Premium & L1', 'Arabisch & Tajweed', 'Jugendkurse', 'Fragenservice', 'Mentoring Medium', 'Semester 1', 'Mentoring Basics', 'Sonstige'],
+                    labels: ['S1 & S2 (Mentoring betreut)', 'Mentoring Programme', 'Arabisch, Tajweed, Medina', 'Jugendkurse', 'Fragenservice (Q/A)', 'S1 & S2 (Selbststudium)'],
                     datasets: [{
-                        data: [44, 218, 107, 32, 42, 18, 18, 19, 310],
+                        data: [254, 144, 48, 21, 18, 18],
                         backgroundColor: [
-                            'rgba(59,130,246,0.8)', 'rgba(168,85,247,0.8)', 'rgba(245,158,11,0.8)',
-                            'rgba(20,184,166,0.8)', 'rgba(244,63,94,0.8)', 'rgba(99,102,241,0.8)',
-                            'rgba(16,185,129,0.8)', 'rgba(96,165,250,0.8)', 'rgba(100,116,139,0.5)'
+                            'rgba(244,63,94,0.8)', 'rgba(168,85,247,0.8)', 'rgba(245,158,11,0.8)',
+                            'rgba(20,184,166,0.8)', 'rgba(59,130,246,0.8)', 'rgba(16,185,129,0.9)'
                         ],
                         borderWidth: 0,
                         hoverOffset: 6
